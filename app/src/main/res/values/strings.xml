@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">EZshop</string>
+    <string name="user">User</string>
+    <string name="pass">Password</string>
+    <string name="regis">คุณยังไม่มีบัญชี? กดตรงนี้</string>
+    <string name="singin">sing in</string>
+    <string name="clickhome">HOME</string>
+    <string name="name">ชื่อ</string>
+    <string name="lname">นามศกุล</string>
+    <string name="password">รหัสผ่าน</string>
+    <string name="conpass">ยืนยันรหัสผ่าน</string>
+    <string name="tel">เบอร์โทร</string>
+    <string name="email">อีเมล</string>
+    <string-array name="roles">
+        <item>ฝ่ายเบิกผลิต</item>
+        <item>ฝ่ายเติมสต๊อก</item>
+    </string-array>
+</resources>
