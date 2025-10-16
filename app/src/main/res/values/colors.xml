@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="purple">#003CEB</color>
     <color name="red">#FF0000</color>
+    <color name="ic_mw_background">#FFFFFF</color>
 </resources>
