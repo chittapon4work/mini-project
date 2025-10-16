@@ -6,7 +6,7 @@
     <string name="singin">sing in</string>
     <string name="clickhome">HOME</string>
     <string name="name">ชื่อ</string>
-    <string name="lname">นามศกุล</string>
+    <string name="lname">นามสกุล</string>
     <string name="password">รหัสผ่าน</string>
     <string name="conpass">ยืนยันรหัสผ่าน</string>
     <string name="tel">เบอร์โทร</string>
