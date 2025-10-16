@@ -14,7 +14,7 @@
         android:layout_height="80dp"
         android:background="@drawable/circle_bg"
         android:scaleType="centerCrop"
-        android:src="@drawable/outline_accessibility_24"
+        android:src="@drawable/mw_letter_logo_design"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
