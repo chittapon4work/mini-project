@@ -2,13 +2,13 @@
     <item
         android:id="@+id/nav_home"
         android:icon="@android:drawable/ic_menu_view"
-        android:title="หน้าแรก" />
+        android:title="@string/menu_home" />
     <item
         android:id="@+id/nav_cart"
         android:icon="@android:drawable/ic_menu_add"
-        android:title="ตะกร้า" />
+        android:title="@string/menu_cart" />
     <item
         android:id="@+id/nav_profile"
         android:icon="@android:drawable/ic_menu_manage"
-        android:title="โปรไฟล์" />
+        android:title="@string/menu_profile" />
 </menu>

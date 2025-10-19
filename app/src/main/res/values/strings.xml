@@ -11,6 +11,15 @@
     <string name="conpass">ยืนยันรหัสผ่าน</string>
     <string name="tel">เบอร์โทร</string>
     <string name="email">อีเมล</string>
+    <string name="employee_greeting">สวัสดีคุณ : %1$s  ตำแหน่ง : %2$s</string>
+    <string name="employee_email">อีเมล: %1$s</string>
+    <string name="employee_tel">เบอร์โทร: %1$s</string>
+    <string name="search_hint">ค้นหาสินค้าด้วยชื่อหรือรหัส</string>
+    <string name="menu_home">หน้าแรก</string>
+    <string name="menu_cart">ตะกร้า</string>
+    <string name="menu_profile">โปรไฟล์</string>
+    <string name="menu_receipts">ดูใบเสร็จ</string>
+    <string name="menu_add_product">เพิ่มสินค้า</string>
     <string-array name="roles">
         <item>ฝ่ายเบิกผลิต</item>
         <item>ฝ่ายเติมสต๊อก</item>
