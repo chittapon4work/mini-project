@@ -14,7 +14,7 @@ public class EditProductActivity extends AppCompatActivity {
     private EditText etQty;
     private DBhelper db;
     private int productId;
-    private int currentQty = 0; // store loaded qty to preserve when input left blank
+    private int currentQty = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +49,10 @@ public class EditProductActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadProductData(); // Reload data when activity resumes
+        loadProductData();
     }
 
-    private void loadProductData() {
-        // Clear existing data first
+    private void loadProductData() { // โหลดข้อมูลสินค้าจากฐานข้อมูลมาใส่
         etName.setText("");
         etDesc.setText("");
         etImage.setText("");
@@ -62,8 +61,7 @@ public class EditProductActivity extends AppCompatActivity {
         Cursor c = null;
         try {
             c = db.getProductById(productId);
-            if (c != null && c.moveToFirst()) {
-                // Use column names to avoid index mismatches if schema changed
+            if (c != null && c.moveToFirst()) { // ดึงข้อมูลสินค้า
                 String name = null;
                 String desc = null;
                 String image = null;
@@ -94,7 +92,7 @@ public class EditProductActivity extends AppCompatActivity {
                 } else if (c.getColumnCount() > 2) {
                     try { qty = c.getInt(2); } catch (Exception ignored) { qty = 0; }
                 }
-                currentQty = qty; // keep loaded quantity
+                currentQty = qty; // เก็บค่า qty ปัจจุบันไว้ใช้ทีหลัง
 
                 etName.setText(name != null ? name : "");
                 etDesc.setText(desc != null ? desc : "");
@@ -113,7 +111,7 @@ public class EditProductActivity extends AppCompatActivity {
         }
     }
 
-    private void showDeleteConfirmation() {
+    private void showDeleteConfirmation() { // Alert ก่อนลบสินค้า
         new AlertDialog.Builder(this)
             .setTitle("ยืนยันการลบสินค้า")
             .setMessage("คุณต้องการลบสินค้านี้ใช่หรือไม่?")
@@ -122,7 +120,7 @@ public class EditProductActivity extends AppCompatActivity {
             .show();
     }
 
-    private void deleteProduct() {
+    private void deleteProduct() { // ฟเมธอดลบสินค้าออกจากฐานข้อมูล
         boolean success = db.deleteProduct(productId);
         if (success) {
             Toast.makeText(this, "ลบสินค้าเรียบร้อย", Toast.LENGTH_SHORT).show();
@@ -133,17 +131,17 @@ public class EditProductActivity extends AppCompatActivity {
         }
     }
 
-    private void saveChanges() {
+    private void saveChanges() { // เมธอดบันทึกการแก้ไขสินค้า
         String name = etName.getText().toString().trim();
         String desc = etDesc.getText().toString().trim();
         String image = etImage.getText().toString().trim();
         String qtyStr = etQty != null ? etQty.getText().toString().trim() : "";
-        int qty = currentQty; // default to previously loaded qty if user leaves field blank
+        int qty = currentQty;
 
         if (TextUtils.isEmpty(name)) {
             Toast.makeText(this, "กรุณากรอกชื่อสินค้า", Toast.LENGTH_SHORT).show();
             return;
-        }
+        } // ตรวจสอบจำนวนสินค้าให้ถูกต้อง
         if (!qtyStr.isEmpty()) {
             try {
                 qty = Integer.parseInt(qtyStr);
@@ -157,7 +155,7 @@ public class EditProductActivity extends AppCompatActivity {
             }
         }
 
-        boolean success = db.updateProduct(productId, name, qty, desc, image);
+        boolean success = db.updateProduct(productId, name, qty, desc, image); // อัปเดตสินค้า
         if (success) {
             Toast.makeText(this, "บันทึกการแก้ไขเรียบร้อย", Toast.LENGTH_SHORT).show();
             setResult(RESULT_OK);

@@ -21,7 +21,7 @@ public class ProfileActivity extends AppCompatActivity {
     private DBhelper dbHelper;
     private String currentEmail;
 
-    @Override
+    @Override // หน้านี้ใช้แสดงข้อมูลผู้ใช้ปัจจุบัน ที่ navbar โปรไฟล์
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
@@ -42,7 +42,6 @@ public class ProfileActivity extends AppCompatActivity {
         BottomNavigationView nav = findViewById(R.id.bottom_nav);
         nav.setSelectedItemId(R.id.nav_profile);
 
-        // ตรวจสอบบทบาทและเปลี่ยนข้อความในเมนู
         String role = dbHelper.getRoleByEmail(currentEmail);
         if ("stocker".equalsIgnoreCase(role)) {
             MenuItem cartItem = nav.getMenu().findItem(R.id.nav_cart);
@@ -56,7 +55,6 @@ public class ProfileActivity extends AppCompatActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 intent.putExtra("email", currentEmail);
                 startActivity(intent);
-                // เลื่อนขวาเมื่อกลับหน้าหลัก
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 finish();
                 return true;
@@ -71,7 +69,6 @@ public class ProfileActivity extends AppCompatActivity {
                 intent.putExtra("email", currentEmail);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-                // เลื่อนขวาเมื่อไปหน้าตะกร้า
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 finish();
                 return true;
@@ -88,7 +85,6 @@ public class ProfileActivity extends AppCompatActivity {
         BottomNavigationView nav = findViewById(R.id.bottom_nav);
         nav.setSelectedItemId(R.id.nav_profile);
 
-        // อัพเดทข้อความในเมนูเมื่อกลับมาที่หน้านี้
         String role = dbHelper.getRoleByEmail(currentEmail);
         if ("stocker".equalsIgnoreCase(role)) {
             MenuItem cartItem = nav.getMenu().findItem(R.id.nav_cart);
@@ -99,33 +95,32 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        // เลื่อนขวาเมื่อกดปุ่มกลับ
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
     private void initializeViews() {
-        // Profile info
+        // ข้อมูลโปรไฟล์
         tvProfileName = findViewById(R.id.tvProfileName);
         tvProfileEmail = findViewById(R.id.tvProfileEmail);
         tvProfileTel = findViewById(R.id.tvProfileTel);
         tvProfileRole = findViewById(R.id.tvProfileRole);
 
-        // Email change
+        // เปลี่ยนอีเมล
         etNewEmail = findViewById(R.id.etNewEmail);
         etEmailPassword = findViewById(R.id.etEmailPassword); // เพิ่มการอ้างอิงช่องรหัสผ่านสำหรับเปลี่ยนอีเมล
         btnChangeEmail = findViewById(R.id.btnChangeEmail);
 
-        // Password change
+        // เปลี่ยนรหัสผ่าน
         etCurrentPassword = findViewById(R.id.etCurrentPassword);
         etNewPassword = findViewById(R.id.etNewPassword);
         etConfirmNewPassword = findViewById(R.id.etConfirmNewPassword);
         btnChangePassword = findViewById(R.id.btnChangePassword);
 
-        // Logout
+        // ออกจากระบบ
         btnLogout = findViewById(R.id.btnLogout);
     }
 
-    private void loadProfileData() {
+    private void loadProfileData() { // โหลดข้อมูลโปรไฟล์จากฐานข้อมูล
         Cursor cursor = dbHelper.getEmployeeInfo(currentEmail);
         if (cursor != null && cursor.moveToFirst()) {
             tvProfileName.setText("ชื่อ: " + cursor.getString(0));
@@ -136,13 +131,13 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void setupListeners() {
+    private void setupListeners() { // ตั้งค่าการคลิกปุ่มทั้งหมด
         btnChangeEmail.setOnClickListener(v -> handleEmailChange());
         btnChangePassword.setOnClickListener(v -> handlePasswordChange());
         btnLogout.setOnClickListener(v -> handleLogout());
     }
 
-    private void handleEmailChange() {
+    private void handleEmailChange() { // เมธอดเปลี่ยนอีเมลผู้ใช้
         String newEmail = etNewEmail.getText().toString().trim();
         String password = etEmailPassword.getText().toString().trim();
 
@@ -161,13 +156,12 @@ public class ProfileActivity extends AppCompatActivity {
             return;
         }
 
-        // ตรวจสอบรหัสผ่านก่อนเปลี่ยนอีเมล
         if (!dbHelper.checkUser(currentEmail, password)) {
             etEmailPassword.setError("รหัสผ่านไม่ถูกต้อง");
             return;
         }
 
-        if (dbHelper.updateEmail(currentEmail, newEmail)) {
+        if (dbHelper.updateEmail(currentEmail, newEmail)) { // อัปเดตอีเมลในฐานข้อมูล
             currentEmail = newEmail;
             Toast.makeText(this, "อัพเดตอีเมลสำเร็จ", Toast.LENGTH_SHORT).show();
             loadProfileData();
@@ -178,7 +172,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void handlePasswordChange() {
+    private void handlePasswordChange() { // เมธอดเปลี่ยนรหัสผ่านผู้ใช้
         String currentPass = etCurrentPassword.getText().toString();
         String newPass = etNewPassword.getText().toString();
         String confirmPass = etConfirmNewPassword.getText().toString();
@@ -217,14 +211,13 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void clearPasswordFields() {
+    private void clearPasswordFields() { // ล้างช่องรหัสผ่านหลังเปลี่ยนเสร็จ
         etCurrentPassword.setText("");
         etNewPassword.setText("");
         etConfirmNewPassword.setText("");
     }
 
-    private void handleLogout() {
-        // Clear any saved login state if needed
+    private void handleLogout() { // ปิดทุก Activity เดิมก่อนหน้า เพื่อกลับหน้า Login
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

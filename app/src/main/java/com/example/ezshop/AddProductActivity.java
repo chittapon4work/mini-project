@@ -26,7 +26,7 @@ public class AddProductActivity extends AppCompatActivity {
         etImage = findViewById(R.id.etImage);
         btnAdd = findViewById(R.id.btnAddProductDone);
         db = new DBhelper(this);
-
+        // เช็คค่าดึงค่าจากช่องกรอกทั้งหมด //
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,11 +35,12 @@ public class AddProductActivity extends AppCompatActivity {
                 String desc = etDesc.getText().toString().trim();
                 String image = etImage.getText().toString().trim();
                 if (TextUtils.isEmpty(name) || TextUtils.isEmpty(qtys)) {
-                    Toast.makeText(AddProductActivity.this, "กรุณากรอกชื่อและจำนวน", Toast.LENGTH_SHORT).show();
-                    return;
+                    Toast.makeText(AddProductActivity.this, "กรุณากรอกชื่อและจำนวน", Toast.LENGTH_SHORT).show();       // TextUtils ตรวจสอบว่าง ตัดช่องว่าง เช็กความยาว เปรียบเทียบข้อความ
+                    return; // หยุดการทำงานถ้ายังไม่กรอกข้อมูล //
                 }
                 int qty;
-                try { qty = Integer.parseInt(qtys); } catch (NumberFormatException e) { qty = 0; }
+                try { qty = Integer.parseInt(qtys); } catch (NumberFormatException e) { qty = 0; } // ถ้าแปลงไม่ได้ให้ค่าเป็น 0
+                // เช็คค่าติดลบติดลบ
                 if (qty < 0) qty = 0;
                 boolean ok = db.addProduct(name, qty, desc, image);
                 if (ok) {

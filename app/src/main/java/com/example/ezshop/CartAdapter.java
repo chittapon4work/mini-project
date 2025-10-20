@@ -16,21 +16,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.ezshop.R; // ensure resources resolve
-
+// ----------------------------------------------------------------------
+// CartAdapter ใช้เชื่อมข้อมูลจากฐานข้อมูลตะกร้าสินค้า
+// RecyclerView แสดงรายการสินค้าแต่ละรายการบนหน้าจอ
+// ----------------------------------------------------------------------
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.VH> {
     private Context context;
-    private List<CartItem> items = new ArrayList<>();
+    private List<CartItem> items = new ArrayList<>(); // รายการสินค้าที่อยู่ในตะกร้า
     private DBhelper db;
     private String email;
-
-    public CartAdapter(Context context, String email) {
+    public CartAdapter(Context context, String email) { // รับ context และ email จากหน้า CartActivity
         this.context = context;
         this.email = email;
         this.db = new DBhelper(context);
         loadItems();
     }
 
-    private void loadItems() {
+    private void loadItems() { // โหลดข้อมูลตะกร้าจากฐานข้อมูลเมื่อสร้าง Adapter
         items.clear();
         Cursor c = db.getCartForEmail(email);
         if (c != null) {
@@ -53,7 +55,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.VH> {
         return new VH(v);
     }
 
-    @Override
+    @Override // หน้าตะกร้า
     public void onBindViewHolder(@NonNull VH holder, int position) {
         CartItem it = items.get(position);
         holder.tvName.setText(it.name);
@@ -73,9 +75,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.VH> {
     @Override
     public int getItemCount() {
         return items.size();
-    }
+    } // คืนค่าจำนวนสินค้าในตะกร้า
 
-    public void refresh() {
+    public void refresh() { // โหลดข้อมูลใหม่จากฐานข้อมูลและอัปเดตจอแสดงผล
         loadItems();
         notifyDataSetChanged();
     }
@@ -92,7 +94,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.VH> {
         }
     }
 
-    static class CartItem {
+    static class CartItem { // model เก็บข้อมูลสินค้าแต่ละรายการในตะกร้า
         int cartId;
         int productId;
         String name;

@@ -26,18 +26,19 @@ public class CartActivity extends AppCompatActivity {
         email = getIntent().getStringExtra("email");
         if (email == null) email = "";
 
-        setupViews();
+        setupViews(); // เมธอดดึง
         setupNavigation();
     }
 
     private void setupViews() {
         rvCart = findViewById(R.id.rvCart);
         rvCart.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new CartAdapter(this, email);
+        adapter = new CartAdapter(this, email); //email ให้ adapter เพื่อแยกโรลเพราะทั้งฝ่ายเห็นไม่เหมือนกัน
+
         rvCart.setAdapter(adapter);
 
         Button btnCheckout = findViewById(R.id.btnCheckout);
-        btnCheckout.setOnClickListener(v -> {
+        btnCheckout.setOnClickListener(v -> { // สร้างใบเสร็จจากสินค้าในตะกร้า
             long receiptId = db.createReceiptFromCart(email);
             if (receiptId == -1) {
                 Toast.makeText(CartActivity.this, "ตะกร้าว่างหรือเกิดข้อผิดพลาด", Toast.LENGTH_SHORT).show();
@@ -48,7 +49,7 @@ public class CartActivity extends AppCompatActivity {
         });
     }
 
-    private void setupNavigation() {
+    private void setupNavigation() { // ตั้ง navbar แยกโรลเพราะทั้งฝ่ายเห็นไม่เหมือนกัน
         BottomNavigationView nav = findViewById(R.id.bottom_nav);
         String role = db.getRoleByEmail(email);
         if ("stocker".equalsIgnoreCase(role)) {
@@ -86,7 +87,7 @@ public class CartActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume() { // เรียกเฟรชหน้าอัพเดทข้อมูลเวลากด navbar
         super.onResume();
         if (adapter != null) adapter.refresh();
         BottomNavigationView nav = findViewById(R.id.bottom_nav);

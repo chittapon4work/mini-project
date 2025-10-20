@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:padding="8dp">
 
-        <!-- ชื่อสินค้า -->
+
         <EditText
             android:id="@+id/etName"
             android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:padding="12dp"
             android:layout_marginBottom="12dp"/>
 
-        <!-- จำนวน -->
+
         <EditText
             android:id="@+id/etQty"
             android:layout_width="match_parent"
@@ -32,7 +32,7 @@
             android:padding="12dp"
             android:layout_marginBottom="12dp"/>
 
-        <!-- คำอธิบาย -->
+
         <EditText
             android:id="@+id/etDesc"
             android:layout_width="match_parent"
@@ -44,7 +44,7 @@
             android:gravity="top"
             android:layout_marginBottom="12dp"/>
 
-        <!-- ชื่อรูปภาพ -->
+
         <EditText
             android:id="@+id/etImage"
             android:layout_width="match_parent"
@@ -54,7 +54,7 @@
             android:padding="12dp"
             android:layout_marginBottom="16dp"/>
 
-        <!-- ปุ่มเพิ่มสินค้า -->
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAddProductDone"
             android:layout_width="match_parent"

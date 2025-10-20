@@ -31,10 +31,10 @@ public class EditSearchActivity extends AppCompatActivity {
         db = new DBhelper(this);
         searchView = findViewById(R.id.searchEditProduct);
         listView = findViewById(R.id.listSearchResults);
-
+        // สร้าง adapter
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<>());
         listView.setAdapter(adapter);
-
+        // พิมพ์ข้อความค้นหาใน SearchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -48,16 +48,16 @@ public class EditSearchActivity extends AppCompatActivity {
                 return true;
             }
         });
-
+        // เมื่อคลิกที่สินค้าเปิดหน้าแก้ไข
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position < 0 || position >= resultIds.size()) return;
                 int productId = resultIds.get(position);
-                // open EditProductActivity and wait for result
+                // เปิดหน้า EditProductActivity พร้อมส่ง id ไป
                 Intent i = new Intent(EditSearchActivity.this, EditProductActivity.class);
                 i.putExtra("productId", productId);
-                startActivityForResult(i, 200);
+                startActivityForResult(i, 200); // รอค่ากลับมา
             }
         });
     }
@@ -65,16 +65,19 @@ public class EditSearchActivity extends AppCompatActivity {
     private void performSearch(String q) {
         adapter.clear();
         resultIds.clear();
-        if (TextUtils.isEmpty(q)) return;
+        if (TextUtils.isEmpty(q)) return; // ไม่พิมพ์จะไม่ค้นหา
 
-        // if q is numeric, search by id OR name
+        // ตรวจว่าผู้ตัวเลขหรือชื่อสินค้า
         boolean isNum = q.matches("\\\\d+");
         String query;
         String[] args;
+        // ค้นทั้ง id และชื่อสินค้า
         if (isNum) {
             query = "SELECT id, " + DBhelper.product_col_name + ", " + DBhelper.product_col_qty + " FROM " + DBhelper.product_table + " WHERE id = ? OR " + DBhelper.product_col_name + " LIKE ?";
             args = new String[]{q, "%" + q + "%"};
-        } else {
+        }
+        // ค้นจากชื่อสินค้าเท่านั้น
+        else {
             query = "SELECT id, " + DBhelper.product_col_name + ", " + DBhelper.product_col_qty + " FROM " + DBhelper.product_table + " WHERE " + DBhelper.product_col_name + " LIKE ?";
             args = new String[]{"%" + q + "%"};
         }
@@ -100,11 +103,10 @@ public class EditSearchActivity extends AppCompatActivity {
         }
     }
 
-    @Override
+    @Override // เมื่อกลับมาจากหน้าแก้ไขสินค้า
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 200 && resultCode == RESULT_OK) {
-            // forward OK to caller (PRD_IRDActivity) so it can refresh
             setResult(RESULT_OK);
             finish();
         }
