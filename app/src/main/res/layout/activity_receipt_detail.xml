@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#25374A"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tvReceiptDetails"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:padding="16dp"
-        android:background="@drawable/receipt_background"
-        android:textSize="16sp"
-        android:textColor="#25374A"
-        android:lineSpacingExtra="4dp"
-        android:scrollbars="vertical" />
+        android:layout_margin="8dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        android:background="#FFFFFF">
 
+        <TextView
+            android:id="@+id/tvReceiptDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="กำลังโหลดรายการสินค้า..."
+            android:textSize="20sp"
+            android:textColor="#000000"
+            android:lineSpacingExtra="8dp"
+            android:padding="16dp" />
+
+    </androidx.cardview.widget.CardView>
 
 </ScrollView>
+

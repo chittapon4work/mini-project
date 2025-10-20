@@ -2,44 +2,68 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#F5F5F5">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="8dp">
 
+        <!-- ชื่อสินค้า -->
         <EditText
             android:id="@+id/etName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="ชื่อสินค้า" />
+            android:hint="ชื่อสินค้า"
+            android:background="@drawable/custom_rounded"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp"/>
 
+        <!-- จำนวน -->
         <EditText
             android:id="@+id/etQty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="จำนวน"
             android:inputType="number"
-            android:hint="จำนวน" />
+            android:background="@drawable/custom_rounded"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp"/>
 
+        <!-- คำอธิบาย -->
         <EditText
             android:id="@+id/etDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="คำอธิบาย (ไม่จำเป็น)" />
+            android:hint="คำอธิบาย (ไม่จำเป็น)"
+            android:background="@drawable/custom_rounded"
+            android:padding="12dp"
+            android:minLines="3"
+            android:gravity="top"
+            android:layout_marginBottom="12dp"/>
 
+        <!-- ชื่อรูปภาพ -->
         <EditText
             android:id="@+id/etImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="ชื่อ drawable ของรูป (ไม่จำเป็น)" />
+            android:hint="ชื่อ drawable ของรูป (ไม่จำเป็น)"
+            android:background="@drawable/custom_rounded"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"/>
 
-        <Button
+        <!-- ปุ่มเพิ่มสินค้า -->
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAddProductDone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="เพิ่มสินค้า" />
+            android:layout_height="48dp"
+            android:text="เพิ่มสินค้า"
+            android:textColor="@android:color/white"
+            android:background="@drawable/btn_save"
+            android:textSize="16sp"/>
+
 
     </LinearLayout>
-
 </ScrollView>
