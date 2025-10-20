@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/layout_user_info"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="140dp"
         android:layout_marginTop="28dp"
         android:background="#33455E"
         android:orientation="vertical"
@@ -22,7 +22,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/prompt"
-            android:text="ชื่อผู้ใช้: - ตำแหน่ง: -"
+            android:text="ชื่อผู้ใช้: -"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/tvRole"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/prompt"
+            android:text="ตำแหน่ง: -"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 
@@ -50,12 +58,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:layout_marginTop="56dp"
         android:background="@android:color/white"
         android:queryHint="ค้นหาสินค้าด้วยชื่อหรือรหัส"
-        app:layout_constraintTop_toBottomOf="@id/layout_user_info"
-        app:layout_constraintStart_toStartOf="parent"
+        app:iconifiedByDefault="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:iconifiedByDefault="false"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_user_info" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerProducts"
@@ -87,12 +96,12 @@
         android:id="@+id/btnViewReceipts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:text="ดูใบเสร็จ"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/bottom_nav"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="8dp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- Floating action button to open cart (for creating receipts) -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -104,6 +113,19 @@
         app:layout_constraintBottom_toTopOf="@id/bottom_nav"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone" />
+
+    <!-- Floating action button to open edit-search (visible to stocker) -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabEditProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_edit"
+        android:contentDescription="Edit Product"
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="76dp"
         android:layout_marginEnd="16dp"
         android:visibility="gone" />
 

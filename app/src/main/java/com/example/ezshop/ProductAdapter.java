@@ -1,6 +1,8 @@
 package com.example.ezshop;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -89,6 +91,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.VH> {
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
         Product p = filteredProducts.get(position);
+        // Reset views to avoid recycling issues
+        holder.tvName.setText("");
+        holder.tvDesc.setText("");
+        holder.tvQty.setText("");
+        holder.img.setImageResource(R.mipmap.ic_launcher);
+
+        // Now set the current data
         holder.tvName.setText(p.name);
         holder.tvDesc.setText(p.description == null ? "" : p.description);
 
@@ -124,7 +133,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.VH> {
 
         holder.btnIncrease.setOnClickListener(v -> {
             String amountStr = holder.etStockAmount.getText().toString();
-            int amount = 1; // ค่าเริ่มต้น
+            int amount = 1; // ค่าเริ่มต้น ถ้าไม่กรอก
             if (!TextUtils.isEmpty(amountStr)) {
                 try {
                     amount = Integer.parseInt(amountStr);
@@ -140,7 +149,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.VH> {
             boolean ok = db.increaseStock(p.id, amount);
             if (ok) {
                 Toast.makeText(context, "เพิ่มสต็อกเรียบร้อย", Toast.LENGTH_SHORT).show();
-                holder.etStockAmount.setText(""); // ล้างช่องกรอกหลังจากเพิ่มสำเร็จ
+                holder.etStockAmount.setText("");
                 refresh();
             } else {
                 Toast.makeText(context, "ไม่สามารถเพิ่มสต็อก", Toast.LENGTH_SHORT).show();
@@ -150,10 +159,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.VH> {
         holder.btnAddCart.setOnClickListener(v -> {
             if (email == null || email.isEmpty()) {
                 Toast.makeText(context, "ไม่มีอีเมลผู้ใช้งาน", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (p.qty <= 0) {
-                Toast.makeText(context, "สินค้าหมด กรุณารอเติมสต็อก", Toast.LENGTH_SHORT).show();
                 return;
             }
             boolean ok = db.addToCart(email, p.id, 1);
@@ -169,7 +174,22 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.VH> {
     }
 
     public void refresh() {
-        loadProducts();
+        products.clear();
+        filteredProducts.clear();
+        Cursor c = db.getAllProducts();
+        if (c != null) {
+            while (c.moveToNext()) {
+                int id = c.getInt(0);
+                String name = c.getString(1);
+                int qty = c.getInt(2);
+                String desc = c.getString(3);
+                String image = c.getString(4);
+                Product product = new Product(id, name, qty, desc, image);
+                products.add(product);
+                filteredProducts.add(product);
+            }
+            c.close();
+        }
         notifyDataSetChanged();
     }
 

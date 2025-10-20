@@ -16,6 +16,10 @@ public class DBhelper extends SQLiteOpenHelper {
         public static final String col6_email = "email";
         public static final String col7_role = "role";
 
+    // Role constants
+    public static final String ROLE_STOCKER = "ฝ่ายเติมสต๊อก";
+    public static final String ROLE_PRODUCTION = "ฝ่ายเบิกผลิต";
+
     // New constants for products, cart and receipts
     public static final String product_table = "products";
     public static final String product_col_name = "name";
@@ -40,7 +44,7 @@ public class DBhelper extends SQLiteOpenHelper {
 
     // bump DB version so onUpgrade recreates updated tables
     public DBhelper(Context context){
-        super(context,DB_name,null,13);  // Increased from 12 to 13 to trigger database recreation
+        super(context,DB_name,null,14);  // Increased from 12 to 13 to trigger database recreation
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -54,23 +58,23 @@ public class DBhelper extends SQLiteOpenHelper {
                 "role TEXT)";
         db.execSQL(CREATE_CUSTOMER_TABLE);
 
-        // seed demo users with Thai role names
+        // seed demo users using role constants
         ContentValues user1 = new ContentValues();
         user1.put(col2_name, "StockerUser");
         user1.put(col3_last_name, "Demo");
-        user1.put(col4_password, "password");
+        user1.put(col4_password, "1");
         user1.put(col5_tel, "0000000000");
-        user1.put(col6_email, "stocker@example.com");
-        user1.put(col7_role, "ฝ่ายเติมสต๊อก");
+        user1.put(col6_email, "ird");
+        user1.put(col7_role, ROLE_STOCKER); // Use constant
         db.insert(employee_table, null, user1);
 
         ContentValues user2 = new ContentValues();
         user2.put(col2_name, "EmployeeUser");
         user2.put(col3_last_name, "Demo");
-        user2.put(col4_password, "password");
+        user2.put(col4_password, "1");
         user2.put(col5_tel, "1111111111");
-        user2.put(col6_email, "employee@example.com");
-        user2.put(col7_role, "ฝ่ายเบิกผลิต");
+        user2.put(col6_email, "prd");
+        user2.put(col7_role, ROLE_PRODUCTION); // Use constant
         db.insert(employee_table, null, user2);
 
         // create products table (with description and image)
@@ -233,6 +237,50 @@ public class DBhelper extends SQLiteOpenHelper {
         c.close();
         db.close();
         return true;
+    }
+
+    public Cursor getProductById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT id, " +
+                  product_col_name + ", " +
+                  product_col_qty + ", " +
+                  product_col_desc + ", " +
+                  product_col_image +
+                  " FROM " + product_table +
+                  " WHERE id = ? LIMIT 1";
+        return db.rawQuery(query, new String[]{String.valueOf(id)});
+    }
+
+    public boolean updateProduct(int id, String name, int qty, String desc, String image) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        try {
+            ContentValues cv = new ContentValues();
+            cv.put(product_col_name, name);
+            cv.put(product_col_qty, qty);
+            cv.put(product_col_desc, desc);
+            cv.put(product_col_image, image);
+            int result = db.update(product_table, cv, "id = ?",
+                new String[]{String.valueOf(id)});
+            return result > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            db.close();
+        }
+    }
+
+    public boolean deleteProduct(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        try {
+            int result = db.delete(product_table, "id = ?", new String[]{String.valueOf(id)});
+            return result > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            db.close();
+        }
     }
 
     // ------------- Cart methods --------------

@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class StockerReceiptsActivity extends AppCompatActivity {
+public class ReceipActivity extends AppCompatActivity {
     DBhelper db;
     LinearLayout container;
     private String email;
@@ -41,9 +41,6 @@ public class StockerReceiptsActivity extends AppCompatActivity {
                 MenuItem cartItem = nav.getMenu().findItem(R.id.nav_cart);
                 if (cartItem != null) {
                     cartItem.setTitle(R.string.menu_receipts);
-                    // debug toast: แสดง role จาก DB (ถ้ามี) และยืนยันการตั้งค่า title
-                    String role = (email == null) ? "(no email)" : db.getRoleByEmail(email);
-                    Toast.makeText(StockerReceiptsActivity.this, "Role: " + role + " -> nav: " + getString(R.string.menu_receipts), Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -70,7 +67,7 @@ public class StockerReceiptsActivity extends AppCompatActivity {
         nav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.nav_home) {
-                Intent intent = new Intent(this, EmployeeHomeActivity.class);
+                Intent intent = new Intent(this, PRD_IRDActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 intent.putExtra("email", email);
                 startActivity(intent);
@@ -109,7 +106,7 @@ public class StockerReceiptsActivity extends AppCompatActivity {
                 btnDetail.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent i = new Intent(StockerReceiptsActivity.this, ReceiptDetailActivity.class);
+                        Intent i = new Intent(ReceipActivity.this, ReceiptDetailActivity.class);
                         i.putExtra("receiptId", id);
                         startActivity(i);
                     }

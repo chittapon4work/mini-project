@@ -35,14 +35,15 @@ public class MainActivity extends AppCompatActivity {
 
         if (isValid) {
             String role = dbhelper.getRoleByEmail(email);
-
             Intent intent;
-            if ("ฝ่ายเบิกผลิต".equals(role)) {
-                intent = new Intent(this, EmployeeHomeActivity.class);
-            } else if ("ฝ่ายเติมสต๊อก".equals(role)) {
-                intent = new Intent(this, EmployeeHomeActivity.class);
+
+            // Use constants from DBhelper for role checks
+            if (role != null && role.trim().equals(DBhelper.ROLE_PRODUCTION)) {
+                intent = new Intent(this, PRD_IRDActivity.class);
+            } else if (role != null && role.trim().equals(DBhelper.ROLE_STOCKER)) {
+                intent = new Intent(this, PRD_IRDActivity.class);
             } else {
-                intent = new Intent(this, EmployeeHomeActivity.class);
+                intent = new Intent(this, PRD_IRDActivity.class);
             }
 
             intent.putExtra("email", email);

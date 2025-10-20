@@ -4,27 +4,28 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.MenuItem;
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class EmployeeHomeActivity extends AppCompatActivity {
+public class PRD_IRDActivity extends AppCompatActivity {
+    private static final int REQUEST_EDIT_PRODUCT = 100;
 
-    TextView tvName, tvEmail, tvTel;
+    TextView tvName,tvRole, tvEmail, tvTel;
     DBhelper dbhelper;
     RecyclerView recyclerProducts;
     ProductAdapter adapter;
     Button btnViewReceipts;
     Button btnAddProduct;
     FloatingActionButton fabOpenCart;
+    FloatingActionButton fabEditProduct;
     private androidx.appcompat.widget.SearchView searchView;
 
     private String role;
@@ -45,12 +46,14 @@ public class EmployeeHomeActivity extends AppCompatActivity {
 
     private void initializeViews() {
         tvName = findViewById(R.id.tvName);
+        tvRole = findViewById(R.id.tvRole);
         tvEmail = findViewById(R.id.tvEmail);
         tvTel = findViewById(R.id.tvTel);
         recyclerProducts = findViewById(R.id.recyclerProducts);
         btnViewReceipts = findViewById(R.id.btnViewReceipts);
         btnAddProduct = findViewById(R.id.btnAddProduct);
         fabOpenCart = findViewById(R.id.fabOpenCart);
+        fabEditProduct = findViewById(R.id.fabEditProduct);
         searchView = findViewById(R.id.searchView);
         dbhelper = new DBhelper(this);
     }
@@ -65,9 +68,9 @@ public class EmployeeHomeActivity extends AppCompatActivity {
     }
 
     private void setupUI() {
-        if ("ฝ่ายเติมสต๊อก".equals(role)) {
+        if (role != null && role.trim().equals(DBhelper.ROLE_STOCKER)) {
             setupStockerUI();
-        } else if ("ฝ่ายเบิกผลิต".equals(role)) {
+        } else if (role != null && role.trim().equals(DBhelper.ROLE_PRODUCTION)) {
             setupEmployeeUI();
         } else {
             setupDefaultUI();
@@ -75,12 +78,19 @@ public class EmployeeHomeActivity extends AppCompatActivity {
     }
 
     private void setupStockerUI() {
-        btnViewReceipts.setVisibility(View.VISIBLE);
+        btnViewReceipts.setVisibility(View.GONE);
         btnAddProduct.setVisibility(View.VISIBLE);
         fabOpenCart.setVisibility(View.GONE);
+        if (fabEditProduct != null) {
+            fabEditProduct.setVisibility(View.VISIBLE);
+            fabEditProduct.setOnClickListener(v -> {
+                Intent i = new Intent(PRD_IRDActivity.this, EditSearchActivity.class);
+                startActivityForResult(i, REQUEST_EDIT_PRODUCT);
+            });
+        }
 
         btnViewReceipts.setOnClickListener(v -> {
-            Intent intent = new Intent(this, StockerReceiptsActivity.class);
+            Intent intent = new Intent(this, ReceipActivity.class);
             intent.putExtra("email", email);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -93,10 +103,11 @@ public class EmployeeHomeActivity extends AppCompatActivity {
     private void setupEmployeeUI() {
         btnViewReceipts.setVisibility(View.GONE);
         btnAddProduct.setVisibility(View.GONE);  // Changed to GONE to hide add product button for ฝ่ายเบิกผลิต
-        fabOpenCart.setVisibility(View.VISIBLE);
+        fabOpenCart.setVisibility(View.GONE);
+        if (fabEditProduct != null) fabEditProduct.setVisibility(View.GONE);
 
         fabOpenCart.setOnClickListener(v -> {
-            Intent i = new Intent(EmployeeHomeActivity.this, CartActivity.class);
+            Intent i = new Intent(PRD_IRDActivity.this, CartActivity.class);
             i.putExtra("email", email);
             startActivity(i);
         });
@@ -106,13 +117,23 @@ public class EmployeeHomeActivity extends AppCompatActivity {
         btnViewReceipts.setVisibility(View.GONE);
         btnAddProduct.setVisibility(View.GONE);
         fabOpenCart.setVisibility(View.GONE);
+        if (fabEditProduct != null) fabEditProduct.setVisibility(View.GONE);
     }
 
-    // helper to recognize stocker role (accepts English code or Thai display text)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_EDIT_PRODUCT && resultCode == RESULT_OK) {
+            if (adapter != null) {
+                adapter.refresh();
+            }
+        }
+    }
+
+    // Update role check helper to use constant
     private boolean isStockerRole(String r) {
         if (r == null) return false;
-        String low = r.toLowerCase();
-        return low.contains("stocker") || low.contains("เติม");
+        return r.trim().equals(DBhelper.ROLE_STOCKER);
     }
 
     private void setupNavigation() {
@@ -135,7 +156,7 @@ public class EmployeeHomeActivity extends AppCompatActivity {
             } else if (id == R.id.nav_cart) {
                 Intent intent;
                 if (isStockerRole(role)) {
-                    intent = new Intent(this, StockerReceiptsActivity.class);
+                    intent = new Intent(this, ReceipActivity.class);
                 } else {
                     intent = new Intent(this, CartActivity.class);
                 }
@@ -174,7 +195,9 @@ public class EmployeeHomeActivity extends AppCompatActivity {
         Cursor cursor = dbhelper.getEmployeeInfo(email);
         if (cursor != null && cursor.moveToFirst()) {
             tvName.setText(getString(R.string.employee_greeting,
-                cursor.getString(0), cursor.getString(3)));
+                cursor.getString(0)));
+            tvRole.setText(getString(R.string.employee_role,
+                cursor.getString(3)));
             tvEmail.setText(getString(R.string.employee_email,
                 cursor.getString(1)));
             tvTel.setText(getString(R.string.employee_tel,
@@ -186,7 +209,7 @@ public class EmployeeHomeActivity extends AppCompatActivity {
     private void setupProductList(String role, String email) {
         recyclerProducts.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ProductAdapter(this, role, email);
-        recyclerProducts.setAdapter(adapter);
+         recyclerProducts.setAdapter(adapter);
     }
 
     private void setupSearchView() {

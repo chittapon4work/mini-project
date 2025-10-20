@@ -12,7 +12,7 @@
         android:theme="@style/Theme.EZshop">
 
         <activity
-            android:name=".EmployeeHomeActivity"
+            android:name=".PRD_IRDActivity"
             android:exported="false" />
         <activity
             android:name=".view"
@@ -24,13 +24,19 @@
             android:name=".CartActivity"
             android:exported="false" />
         <activity
-            android:name=".StockerReceiptsActivity"
+            android:name=".ReceipActivity"
             android:exported="false" />
         <activity
             android:name=".ReceiptDetailActivity"
             android:exported="false" />
         <activity
             android:name=".AddProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditSearchActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

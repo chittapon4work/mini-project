@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#25374a">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="แก้ไขข้อมูลสินค้า"
+        android:textSize="24sp"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:layout_marginBottom="24dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="#33455E">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ชื่อสินค้า"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/etEditName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:padding="12dp"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="จำนวน"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/etEditQty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:padding="12dp"
+                android:inputType="number"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="รายละเอียด"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/etEditDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:padding="12dp"
+                android:minLines="3"
+                android:gravity="top"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ชื่อรูปภาพ"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/etEditImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:padding="12dp"
+                android:layout_marginBottom="24dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/btnDeleteProduct"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ลบสินค้า"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#FF5252"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/btnSaveProduct"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="บันทึกการแก้ไข"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#4CAF50"/>
+
+    </LinearLayout>
+
+</LinearLayout>
