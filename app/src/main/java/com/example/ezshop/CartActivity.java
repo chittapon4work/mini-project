@@ -3,7 +3,6 @@ package com.example.ezshop;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -51,7 +50,6 @@ public class CartActivity extends AppCompatActivity {
 
     private void setupNavigation() {
         BottomNavigationView nav = findViewById(R.id.bottom_nav);
-        // adjust middle item title if the user is stocker
         String role = db.getRoleByEmail(email);
         if ("stocker".equalsIgnoreCase(role)) {
             MenuItem cartItem = nav.getMenu().findItem(R.id.nav_cart);
@@ -62,11 +60,10 @@ public class CartActivity extends AppCompatActivity {
         nav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.nav_home) {
-                Intent intent = new Intent(this, EmployeeHomeActivity.class);
+                Intent intent = new Intent(this, PRD_IRDActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 intent.putExtra("email", email);
                 startActivity(intent);
-                // เลื่อนซ้ายเมื่อกลับหน้าหลัก
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 finish();
                 return true;
@@ -76,7 +73,6 @@ public class CartActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, ProfileActivity.class);
                 intent.putExtra("email", email);
                 startActivity(intent);
-                // เลื่อนขวาเมื่อไปหน้าโปรไฟล์
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 return true;
             }
@@ -87,17 +83,14 @@ public class CartActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        // จะไม่ใส่อนิเมชันที่นี่เพราะจะกำหนดเป็นกรณีๆ ไปในแต่ละการนำทาง
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         if (adapter != null) adapter.refresh();
-        // ตั้งค่า nav bar ให้แสดงที่ cart ทุกครั้งที่กลับมาหน้านี้
         BottomNavigationView nav = findViewById(R.id.bottom_nav);
         nav.setSelectedItemId(R.id.nav_cart);
-        // refresh title in case role/labels changed
         String role = db.getRoleByEmail(email);
         if ("stocker".equalsIgnoreCase(role)) {
             MenuItem cartItem = nav.getMenu().findItem(R.id.nav_cart);

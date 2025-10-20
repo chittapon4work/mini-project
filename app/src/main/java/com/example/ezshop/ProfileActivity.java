@@ -52,7 +52,7 @@ public class ProfileActivity extends AppCompatActivity {
         nav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.nav_home) {
-                Intent intent = new Intent(this, EmployeeHomeActivity.class);
+                Intent intent = new Intent(this, PRD_IRDActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 intent.putExtra("email", currentEmail);
                 startActivity(intent);
@@ -64,7 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
                 String currentRole = dbHelper.getRoleByEmail(currentEmail);
                 Intent intent;
                 if ("stocker".equalsIgnoreCase(currentRole)) {
-                    intent = new Intent(this, StockerReceiptsActivity.class);
+                    intent = new Intent(this, ReceipActivity.class);
                 } else {
                     intent = new Intent(this, CartActivity.class);
                 }
