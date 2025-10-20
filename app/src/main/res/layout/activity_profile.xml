@@ -17,7 +17,6 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Profile Section -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,7 +68,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Settings Section -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -91,7 +89,6 @@
                         android:textStyle="bold"
                         android:layout_marginBottom="16dp"/>
 
-                    <!-- Change Email Section -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -162,7 +159,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Logout Button -->
             <Button
                 android:id="@+id/btnLogout"
                 android:layout_width="match_parent"

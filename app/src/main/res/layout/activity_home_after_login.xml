@@ -91,7 +91,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu" />
 
-    <!-- Button visible to view receipts -->
     <Button
         android:id="@+id/btnViewReceipts"
         android:layout_width="wrap_content"
@@ -103,33 +102,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Floating action button to open cart (for creating receipts) -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabOpenCart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_view"
-        android:contentDescription="Open Cart"
-        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
-        android:visibility="gone" />
+        android:layout_marginBottom="16dp"
+        android:contentDescription="Open Cart"
+        android:src="@android:drawable/ic_menu_view"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Floating action button to open edit-search (visible to stocker) -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabEditProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_edit"
-        android:contentDescription="Edit Product"
-        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="76dp"
         android:layout_marginEnd="16dp"
-        android:visibility="gone" />
+        android:layout_marginBottom="16dp"
+        android:contentDescription="Edit Product"
+        android:src="@android:drawable/ic_menu_edit"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Button for adding new product (visible to production role) -->
     <Button
         android:id="@+id/btnAddProduct"
         android:layout_width="wrap_content"

@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBhelper extends SQLiteOpenHelper {
     public static final String DB_name =  "EZShop.db";
+    // ตารางพนักงาน (employee)
     public static final String employee_table =  "emp_table";
         public static final String col2_name = "first_name";
         public static final String col3_last_name = "last_name";
@@ -16,35 +17,34 @@ public class DBhelper extends SQLiteOpenHelper {
         public static final String col6_email = "email";
         public static final String col7_role = "role";
 
-    // Role constants
+    // Role พนักงาน
     public static final String ROLE_STOCKER = "ฝ่ายเติมสต๊อก";
     public static final String ROLE_PRODUCTION = "ฝ่ายเบิกผลิต";
 
-    // New constants for products, cart and receipts
+    // ตารางสินค้า (products)
     public static final String product_table = "products";
-    public static final String product_col_name = "name";
-    public static final String product_col_qty = "qty";
-    public static final String product_col_desc = "description";
-    public static final String product_col_image = "image";
-
+        public static final String product_col_name = "name";
+        public static final String product_col_qty = "qty";
+        public static final String product_col_desc = "description";
+        public static final String product_col_image = "image";
+    // ตารางตะกร้า (cart)
     public static final String cart_table = "cart"; // stores items added to cart before checkout
-    public static final String cart_col_email = "email";
-    public static final String cart_col_product_id = "product_id";
-    public static final String cart_col_qty = "qty";
-
+        public static final String cart_col_email = "email";
+        public static final String cart_col_product_id = "product_id";
+        public static final String cart_col_qty = "qty";
+    // ตารางใบเสร็จ
     public static final String receipt_table = "receipts";
-    public static final String receipt_col_email = "email";
-    public static final String receipt_col_total = "total";
-    public static final String receipt_col_created = "created_at";
-
+        public static final String receipt_col_email = "email";
+        public static final String receipt_col_total = "total";
+        public static final String receipt_col_created = "created_at";
+    // ตารางรายการสินค้าในใบเสร็จ
     public static final String receipt_items_table = "receipt_items";
-    public static final String receipt_items_col_receipt_id = "receipt_id";
-    public static final String receipt_items_col_product_id = "product_id";
-    public static final String receipt_items_col_qty = "qty";
+        public static final String receipt_items_col_receipt_id = "receipt_id";
+        public static final String receipt_items_col_product_id = "product_id";
+        public static final String receipt_items_col_qty = "qty";
 
-    // bump DB version so onUpgrade recreates updated tables
     public DBhelper(Context context){
-        super(context,DB_name,null,14);  // Increased from 12 to 13 to trigger database recreation
+        super(context,DB_name,null,15);
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -56,28 +56,28 @@ public class DBhelper extends SQLiteOpenHelper {
                 "tel TEXT,"+
                 "email TEXT UNIQUE,"+
                 "role TEXT)";
-        db.execSQL(CREATE_CUSTOMER_TABLE);
+        db.execSQL(CREATE_CUSTOMER_TABLE); // สร้างตารางพนักงาน
 
-        // seed demo users using role constants
+        // seed กำหนดข้อมูลตั้งต้น
         ContentValues user1 = new ContentValues();
         user1.put(col2_name, "StockerUser");
         user1.put(col3_last_name, "Demo");
-        user1.put(col4_password, "1");
-        user1.put(col5_tel, "0000000000");
-        user1.put(col6_email, "ird");
-        user1.put(col7_role, ROLE_STOCKER); // Use constant
+        user1.put(col4_password, "1234");
+        user1.put(col5_tel, "1234567890");
+        user1.put(col6_email, "IRD@example.com");
+        user1.put(col7_role, ROLE_STOCKER);
         db.insert(employee_table, null, user1);
 
         ContentValues user2 = new ContentValues();
         user2.put(col2_name, "EmployeeUser");
         user2.put(col3_last_name, "Demo");
-        user2.put(col4_password, "1");
-        user2.put(col5_tel, "1111111111");
-        user2.put(col6_email, "prd");
-        user2.put(col7_role, ROLE_PRODUCTION); // Use constant
+        user2.put(col4_password, "1234");
+        user2.put(col5_tel, "0987654321");
+        user2.put(col6_email, "PRD@example.com");
+        user2.put(col7_role, ROLE_PRODUCTION);
         db.insert(employee_table, null, user2);
 
-        // create products table (with description and image)
+        // สร้างตารางสินค้า
         String CREATE_PRODUCT_TABLE = "CREATE TABLE IF NOT EXISTS " + product_table +
                 "(id INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 product_col_name + " TEXT,"+
@@ -86,21 +86,21 @@ public class DBhelper extends SQLiteOpenHelper {
                 product_col_image + " TEXT)";
         db.execSQL(CREATE_PRODUCT_TABLE);
 
-        // seed some sample products for testing
+        // seed สินค้าเริ่มต้น
         ContentValues p1 = new ContentValues();
-        p1.put(product_col_name, "สินค้า A");
+        p1.put(product_col_name, "CPU AMD AM5 RYZEN 5 9600X 3.9GHz 6C 12T (3Y)");
         p1.put(product_col_qty, 10);
-        p1.put(product_col_desc, "คำอธิบายสำหรับสินค้า A");
-        p1.put(product_col_image, "");
+        p1.put(product_col_desc, "CPU (ซีพียู) AMD AM5 RYZEN 5 9600X 3.9GHz 6C 12T (3Y)");
+        p1.put(product_col_image, "amd");
         db.insert(product_table, null, p1);
         ContentValues p2 = new ContentValues();
-        p2.put(product_col_name, "สินค้า B");
+        p2.put(product_col_name, "CPU (ซีพียู) INTEL 1851 CORE ULTRA 5 225F 3.3GHz 10C 10T (3Y)");
         p2.put(product_col_qty, 5);
-        p2.put(product_col_desc, "คำอธิบายสำหรับสินค้า B");
-        p2.put(product_col_image, "");
+        p2.put(product_col_desc, "CPU INTEL 1851 CORE ULTRA 5 225F 3.3GHz 10C 10T (3Y)");
+        p2.put(product_col_image, "intel");
         db.insert(product_table, null, p2);
 
-        // create cart table
+        // สร้างตารางตะกร้า
         String CREATE_CART_TABLE = "CREATE TABLE IF NOT EXISTS " + cart_table +
                 "(id INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 cart_col_email + " TEXT,"+
@@ -108,7 +108,7 @@ public class DBhelper extends SQLiteOpenHelper {
                 cart_col_qty + " INTEGER)";
         db.execSQL(CREATE_CART_TABLE);
 
-        // create receipts table
+        // สร้างตารางใบเสร็จ
         String CREATE_RECEIPT_TABLE = "CREATE TABLE IF NOT EXISTS " + receipt_table +
                 "(id INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 receipt_col_email + " TEXT,"+
@@ -116,7 +116,7 @@ public class DBhelper extends SQLiteOpenHelper {
                 receipt_col_created + " TEXT)";
         db.execSQL(CREATE_RECEIPT_TABLE);
 
-        // create receipt items table
+        // สร้างตารางรายการสินค้าในใบเสร็จ
         String CREATE_RECEIPT_ITEMS_TABLE = "CREATE TABLE IF NOT EXISTS " + receipt_items_table +
                 "(id INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 receipt_items_col_receipt_id + " INTEGER,"+
@@ -135,6 +135,7 @@ public class DBhelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + receipt_items_table);
         onCreate(db);
     }
+    // -------------------- เมธอดจัดการข้อมูลพนักงาน --------------------
     public Cursor getEmployee(){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM "+employee_table,null);
@@ -193,8 +194,9 @@ public class DBhelper extends SQLiteOpenHelper {
         db.close();
         return role;
     }
+    // -------------------- เมธอดจัดการข้อมูลพนักงาน --------------------
 
-    // ------------- Product / Stock methods --------------
+    // -------------------- จัดการสินค้า  --------------------
     public boolean addProduct(String name, int qty, String desc, String image) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -215,26 +217,6 @@ public class DBhelper extends SQLiteOpenHelper {
     public boolean increaseStock(int productId, int amount) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("UPDATE " + product_table + " SET " + product_col_qty + " = " + product_col_qty + " + ? WHERE id = ?", new Object[]{amount, productId});
-        db.close();
-        return true;
-    }
-
-    public boolean decreaseStock(int productId, int amount) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT " + product_col_qty + " FROM " + product_table + " WHERE id = ?", new String[]{String.valueOf(productId)});
-        if (c.moveToFirst()) {
-            int current = c.getInt(0);
-            if (current < amount) {
-                c.close();
-                db.close();
-                return false;
-            }
-            int updated = current - amount;
-            ContentValues cv = new ContentValues();
-            cv.put(product_col_qty, updated);
-            db.update(product_table, cv, "id = ?", new String[]{String.valueOf(productId)});
-        }
-        c.close();
         db.close();
         return true;
     }
@@ -282,10 +264,10 @@ public class DBhelper extends SQLiteOpenHelper {
             db.close();
         }
     }
+    // -------------------- จัดการสินค้า  --------------------
 
-    // ------------- Cart methods --------------
+    // -------------------- จัดการตะกร้า  --------------------
     public boolean addToCart(String email, int productId, int qty) {
-        // Reserve stock and add to cart inside a transaction
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
         try {
@@ -301,7 +283,7 @@ public class DBhelper extends SQLiteOpenHelper {
                 return false;
             }
 
-            // if product already in cart for this email, increase qty
+            // ถ้ามีอยู่แล้วเพิ่มจำนวน
             Cursor existing = db.rawQuery("SELECT id, qty FROM " + cart_table + " WHERE " + cart_col_email + " = ? AND " + cart_col_product_id + " = ?", new String[]{email, String.valueOf(productId)});
             if (existing.moveToFirst()) {
                 int id = existing.getInt(0);
@@ -319,7 +301,7 @@ public class DBhelper extends SQLiteOpenHelper {
                 db.insert(cart_table, null, cv);
             }
 
-            // decrease product stock to reserve
+            // อัปเดตสต็อกสินค้า
             ContentValues pv = new ContentValues();
             pv.put(product_col_qty, stock - qty);
             db.update(product_table, pv, "id = ?", new String[]{String.valueOf(productId)});
@@ -338,14 +320,7 @@ public class DBhelper extends SQLiteOpenHelper {
         return db.rawQuery(q, new String[]{email});
     }
 
-    public void clearCartForEmail(String email) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(cart_table, cart_col_email + " = ?", new String[]{email});
-        db.close();
-    }
-
     public boolean removeCartItem(int cartId) {
-        // restore stock for that cart item and delete the cart row
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
         try {
@@ -360,7 +335,7 @@ public class DBhelper extends SQLiteOpenHelper {
             int qty = c.getInt(1);
             c.close();
 
-            // get current stock
+            // คืนสต็อกสินค้า
             Cursor p = db.rawQuery("SELECT " + product_col_qty + " FROM " + product_table + " WHERE id = ?", new String[]{String.valueOf(productId)});
             int stock = 0;
             if (p.moveToFirst()) stock = p.getInt(0);
@@ -370,7 +345,7 @@ public class DBhelper extends SQLiteOpenHelper {
             pv.put(product_col_qty, stock + qty);
             db.update(product_table, pv, "id = ?", new String[]{String.valueOf(productId)});
 
-            db.delete(cart_table, "id = ?", new String[]{String.valueOf(cartId)});
+            db.delete(cart_table, "id = ?", new String[]{String.valueOf(cartId)});// ลบรายการในตะกร้า
 
             db.setTransactionSuccessful();
         } finally {
@@ -379,8 +354,9 @@ public class DBhelper extends SQLiteOpenHelper {
         }
         return true;
     }
+    // -------------------- จัดการตะกร้า  --------------------
 
-    // ------------- Receipt methods --------------
+    // -------------------- จัดการใบเสร็จ --------------------
     public long createReceiptFromCart(String email) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cart = db.rawQuery("SELECT c." + cart_col_product_id + ", c." + cart_col_qty + ", p." + product_col_name + " FROM " + cart_table + " c JOIN " + product_table + " p ON c." + cart_col_product_id + " = p.id WHERE c." + cart_col_email + " = ?", new String[]{email});
@@ -389,14 +365,13 @@ public class DBhelper extends SQLiteOpenHelper {
             db.close();
             return -1;
         }
-
-        // For simplicity total = sum(qty)
+        // รวมจำนวนทั้งหมด
         int totalQty = 0;
         while (cart.moveToNext()) {
             totalQty += cart.getInt(1);
         }
         cart.moveToPosition(-1);
-
+        // เพิ่มใบเสร็จใหม่
         ContentValues rv = new ContentValues();
         rv.put(receipt_col_email, email);
         rv.put(receipt_col_total, totalQty);
@@ -408,7 +383,7 @@ public class DBhelper extends SQLiteOpenHelper {
             return -1;
         }
 
-        // insert receipt items (stock was already reserved when adding to cart)
+        // เพิ่มรายการสินค้าในใบเสร็จ
         while (cart.moveToNext()) {
             int productId = cart.getInt(0);
             int qty = cart.getInt(1);
@@ -420,7 +395,6 @@ public class DBhelper extends SQLiteOpenHelper {
         }
 
         cart.close();
-        // clear cart
         db.delete(cart_table, cart_col_email + " = ?", new String[]{email});
         db.close();
         return receiptId;
@@ -436,7 +410,8 @@ public class DBhelper extends SQLiteOpenHelper {
         String q = "SELECT ri." + receipt_items_col_qty + ", p." + product_col_name + " FROM " + receipt_items_table + " ri JOIN " + product_table + " p ON ri." + receipt_items_col_product_id + " = p.id WHERE ri." + receipt_items_col_receipt_id + " = ?";
         return db.rawQuery(q, new String[]{String.valueOf(receiptId)});
     }
-
+    // -------------------- จัดการใบเสร็จ --------------------
+    // -------------------- อัปเดตโปรไฟล์ --------------------
     public boolean updateEmail(String currentEmail, String newEmail) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -477,4 +452,5 @@ public class DBhelper extends SQLiteOpenHelper {
         cursor.close();
         return exists;
     }
+    // -------------------- อัปเดตโปรไฟล์ --------------------
 }

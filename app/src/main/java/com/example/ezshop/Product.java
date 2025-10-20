@@ -15,3 +15,4 @@ public class Product {
         this.image = image;
     }
 }
+/// model สินค้า

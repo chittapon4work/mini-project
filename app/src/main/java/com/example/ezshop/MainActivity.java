@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
             String role = dbhelper.getRoleByEmail(email);
             Intent intent;
 
-            // Use constants from DBhelper for role checks
             if (role != null && role.trim().equals(DBhelper.ROLE_PRODUCTION)) {
                 intent = new Intent(this, PRD_IRDActivity.class);
             } else if (role != null && role.trim().equals(DBhelper.ROLE_STOCKER)) {

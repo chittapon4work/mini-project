@@ -34,7 +34,7 @@ public class ReceipActivity extends AppCompatActivity {
     }
 
     private void setupUI() {
-        // เปลี่ยนข้อความในเมนู nav_cart เป็น "ดูใบเสร็จ" แต่ทำหลังจาก view inflation ด้วย post
+        // เปลี่ยนข้อความในเมนู nav_cart เป็น "ดูใบเสร็จ"
         BottomNavigationView nav = findViewById(R.id.bottom_nav);
         if (nav != null) {
             nav.post(() -> {
@@ -71,7 +71,6 @@ public class ReceipActivity extends AppCompatActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 intent.putExtra("email", email);
                 startActivity(intent);
-                // เลื่อนซ้ายเมื่อกลับหน้าหลัก
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 finish();
                 return true;
@@ -81,7 +80,6 @@ public class ReceipActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, ProfileActivity.class);
                 intent.putExtra("email", email);
                 startActivity(intent);
-                // เลื่อนขวาเมื่อไปหน้าโปรไฟล์
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 return true;
             }
