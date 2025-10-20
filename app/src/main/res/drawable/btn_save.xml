@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- กดปุ่ม -->
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#388E3C"/> <!-- เขียวเข้มตอนกด -->
+            <corners android:radius="12dp"/>
+        </shape>
+    </item>
+
+    <!-- ปุ่มปกติ -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#4CAF50"/> <!-- เขียวปกติ -->
+            <corners android:radius="12dp"/>
+        </shape>
+    </item>
+
+</selector>

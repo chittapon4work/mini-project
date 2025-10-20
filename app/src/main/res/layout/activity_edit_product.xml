@@ -38,7 +38,7 @@
                 android:id="@+id/etEditName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
+                android:background="@drawable/custom_rounded"
                 android:padding="12dp"
                 android:layout_marginBottom="16dp"/>
 
@@ -53,7 +53,7 @@
                 android:id="@+id/etEditQty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
+                android:background="@drawable/custom_rounded"
                 android:padding="12dp"
                 android:inputType="number"
                 android:layout_marginBottom="16dp"/>
@@ -69,7 +69,7 @@
                 android:id="@+id/etEditDesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
+                android:background="@drawable/custom_rounded"
                 android:padding="12dp"
                 android:minLines="3"
                 android:gravity="top"
@@ -86,7 +86,7 @@
                 android:id="@+id/etEditImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
+                android:background="@drawable/custom_rounded"
                 android:padding="12dp"
                 android:layout_marginBottom="24dp"/>
 
@@ -99,25 +99,24 @@
         android:orientation="horizontal"
         android:layout_marginTop="16dp">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnDeleteProduct"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="ลบสินค้า"
             android:textColor="@android:color/white"
-            android:backgroundTint="#FF5252"
+            android:background="@drawable/btn_delete"
             android:layout_marginEnd="8dp"/>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSaveProduct"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="บันทึกการแก้ไข"
             android:textColor="@android:color/white"
-            android:backgroundTint="#4CAF50"/>
-
+            android:background="@drawable/btn_save"/>
     </LinearLayout>
 
 </LinearLayout>
